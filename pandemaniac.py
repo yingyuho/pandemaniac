@@ -20,7 +20,7 @@ if __name__ == "__main__":
     centrality = []
     v = len(graph)
     for i in range(v):
-	centrality.append([i, len(graph[str(i)])])
+        centrality.append([i, len(graph[str(i)])])
 
     # Select the top num_seeds * num_players node 
     topList = []
@@ -28,35 +28,35 @@ if __name__ == "__main__":
     done = False
     wanted = num_seeds * num_players
     for i in range(N):
-	curtop = []
-	curbot = []
-	for c in centrality:
-	    if c[1] > pivot:
-		curtop.append(c)
-	    else:
-		curbot.append(c)
-	if len(curtop) > wanted:
-	    centrality = curtop[:]
-	elif len(curtop) < wanted:
-	    wanted -= len(curtop)
-	    topList += curtop
-	    centrality = curbot[:]
-	else:
-	    topList += curtop[:]
-	    break
-	pivot = random.choice(centrality)[1]	
-		
+        curtop = []
+        curbot = []
+        for c in centrality:
+            if c[1] > pivot:
+                curtop.append(c)
+            else:
+                curbot.append(c)
+        if len(curtop) > wanted:
+            centrality = curtop[:]
+        elif len(curtop) < wanted:
+            wanted -= len(curtop)
+            topList += curtop
+            centrality = curbot[:]
+        else:
+            topList += curtop[:]
+            break
+        pivot = random.choice(centrality)[1]    
+                
     # Randomly choose a number of seeds from the topList and output to file
     f = open(filename[:-4] + 'sol', 'w')
     seeds = []
     s = random.choice(topList)[0]
     for i in range(num_seeds):
-	while str(s) in seeds:
-	    s = random.choice(topList)[0]
-	seeds.append(str(s))
-	f.write(str(s) + '\n')
+        while str(s) in seeds:
+            s = random.choice(topList)[0]
+        seeds.append(str(s))
+        f.write(str(s) + '\n')
     f.close()
-	
+        
     # Print the idea number of nodes this strategy can capture    
     print sim.run(graph, {"strategy":seeds})
 
