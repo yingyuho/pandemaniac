@@ -1,0 +1,76 @@
+\documentclass[12pt]{article}
+
+%AMS-TeX packages
+\usepackage{amssymb,amsmath,amsthm} 
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1.25in]{geometry}
+\usepackage{graphicx,ctable,booktabs}
+
+
+%
+%
+\newcommand{\course}[2]{\def\courseName{#1} \def\sectName{#2}}
+\newcommand{\assn}[1]{\def\assnName{#1}}
+\newcommand{\sect}[1]{\def\sectName{#1}}
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Ying-yu, Jianchi, Kexin}
+%\chead{Problem \thesection} 
+\chead{}
+\rhead{\thepage} 
+\lfoot{\small\scshape \courseName} 
+\cfoot{} 
+\rfoot{\footnotesize \assnName} 
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\course{Rankmaniac}{}
+\assn{Project Report}
+\date{\today}
+\title{\courseName \sectName \\ \assnName}
+\author{Ying-yu Ho, Jianchi Chen, Kexin Rong}
+\maketitle
+
+\thispagestyle{empty}
+
+\section{Overview}
+
+
+\section{Division of Work}
+\begin{itemize}
+\item Ying-yu Ho: 
+\item Jianchi Chen: 
+\item Kexin Rong: 
+\end{itemize}
+
+\section{Strategy}
+\subsection{Basic Strategy}
+Say there are $p$ players in the game and we want $s$ seeds. Our basic strategy is to calculate the degree of each node in the graph, and randomly choose $s$  from the top $s \times p$ nodes with the largest degrees. \\\\
+The rationales are the following: 
+\begin{enumerate}
+\item We chose "degree" as a measure of a node's importance because it is intuitive that nodes with larger degrees are crucial points in the spread of epidemics.
+\item We also incorporated randomization to avoid colliding with similar strategies from other teams. 
+\end{enumerate}
+
+\subsection{8-player Strategy}
+\subsection{Average distance centrality}
+We also tried to use the node's average distance to all other nodes as a centrality measure locally. The distances between any two nodes in the graph are computed by Floyd Warshall algorithm. If a node is not connected to all other nodes in the graph, we discard it since this node is more likely to be not  important.\\\\
+Since Floyd Warshall algorithm takes $O(n^3)$, we were only planning to use it for graph with fewer nodes. We compared the results locally against the degree measure. The latter won by a large margin. Here are the results on graph with 100 nodes:\\
+
+\section{References}
+
+
+
+\end{document}
