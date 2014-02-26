@@ -14,6 +14,16 @@ from operator import itemgetter
 N = 100 # Maxmimum number of iterations we are doing to find the top nodes
 safety_coefficient = 5
 
+def rand_degree(centrality, num_seeds, num_players):
+    pool = centrality[:num_seeds * num_players + 1]
+    result = []
+    while len(result) < num_seeds:
+        c = random.choice(centrality)
+        if c[0] not in result:
+            result.append(c[0])
+    return result
+
+
 if __name__ == "__main__":
     filename = sys.argv[1]
     graph = json.loads(open(filename).read())
@@ -31,7 +41,9 @@ if __name__ == "__main__":
 
     c_sorted = sorted(centrality, key=itemgetter(1), reverse=True)
 
-    seeds_deg = [str(c_sorted[i][0]) for i in range(num_seeds)]
+    #dic = {}
+    #for i in range(num_players - 1):
+        #dic["deg" + str(i)] = rand_degree(centrality, num_seeds, num_players)
                 
     # Randomly choose a number of seeds from the topList and output to file
     seeds_start = (num_players * num_seeds) / competition_factor + 1
@@ -43,14 +55,15 @@ if __name__ == "__main__":
         stair = [str(c_sorted[i][0]) for i in range(seeds_start, seeds_end)]
         random.shuffle(stair)
         seeds += stair[:(num_seeds / safety_coefficient)]
-        seeds_start = seeds_end + 1
+        seeds_start = seeds_end
 
-    print(seeds_deg)
-    print(seeds)
+    #print(seeds)
+
+    #dic["many"] = seeds
 
     # Print the idea number of nodes this strategy can capture
-    print sim.run(graph, {"many":seeds, "deg":seeds_deg})
-    print (len(graph))
+    #print sim.run(graph, dic)
+    #print (len(graph))
 
     f = open(filename[:-4] + 'sol', 'w')
     for s in seeds:
