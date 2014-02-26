@@ -106,7 +106,7 @@ if __name__ == "__main__":
     for i in range(num_seeds / 5):
         cluster = []
         currseed = seeds[i]
-        neighbours = sorted(graph[str(currseed)], cmp=lambda x,y: cmp(len(graph[str(x)]), len(graph[str(y)])))
+        neighbours = sorted(graph[str(currseed)], cmp=lambda x,y: cmp(len(graph[str(x)]), len(graph[str(y)])), reverse = True)
         j = 0
         while len(cluster) < 4:
             newseed = int(neighbours[j])
