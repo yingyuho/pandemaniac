@@ -23,12 +23,14 @@ if __name__ == "__main__":
     # Calculate centrality
     centrality = []
     v = len(graph)
+    print "Number of nodes: " + str(v)
     for i in range(v):
         centrality.append([i, len(graph[str(i)])])
 
     c_sorted = sorted(centrality, key=itemgetter(1), reverse=True)
     seeds_deg = [str(c_sorted[i][0]) for i in range(num_seeds)]
-
+    low_degs = 0
+    low_nodes = []
     centrality_2 = []
     for i in range(v):
         l = 0 #len(graph[str(i)])
@@ -42,6 +44,12 @@ if __name__ == "__main__":
         if l > 0:
             # print([i,l])
             centrality_2.append([i, l])
+        if l < 3:
+            low_degs += 1
+            low_nodes.append(i)
+
+    print "Number of low-degree nodes: " + str(low_degs)
+    print "Low degree percentage: " + str(float(low_degs) / v * 100) + "%"
 
     c_sorted_2 = sorted(centrality_2, key=itemgetter(1), reverse=True)
     # print(centrality_2)

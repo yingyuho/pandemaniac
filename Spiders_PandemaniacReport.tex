@@ -64,10 +64,17 @@ The rationales are the following:
 \item We also incorporated randomization to avoid colliding with similar strategies from other teams. 
 \end{enumerate}
 
-\subsection{8-player Strategy}
+\subsection{Massively-Multiplayer (8+) Strategy}
+After participating in 
+
 \subsection{Average distance centrality}
 We also tried to use the node's average distance to all other nodes as a centrality measure locally. The distances between any two nodes in the graph are computed by Floyd Warshall algorithm. If a node is not connected to all other nodes in the graph, we discard it since this node is more likely to be not  important.\\\\
 Since Floyd Warshall algorithm takes $O(n^3)$, we were only planning to use it for graph with fewer nodes. We compared the results locally against the degree measure. The latter won by a large margin. Here are the results on graph with 100 nodes:\\
+
+\section{Observations}
+Multiple observations are made by looking at the graphs and practice rounds results.
+\subsection{Low degree nodes}
+By running the game simulation, we observed that, if at least a few high-degree nodes are acquired
 
 \section{References}
 
