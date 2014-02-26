@@ -50,13 +50,13 @@
 
 \section{Division of Work}
 \begin{itemize}
-\item Ying-yu Ho: 
-\item Jianchi Chen: 
-\item Kexin Rong: 
+\item Ying-yu Ho: Randomized high-degree design/implementation; Python code optimization.
+\item Jianchi Chen: Multiplayer Strategy research; Tournament strategy design/implementation; report write-up.
+\item Kexin Rong: Basic Strategy design/implementation; Distance centrality research; report write-up.
 \end{itemize}
 
 \section{Strategy}
-\subsection{Basic Strategy}
+\subsection{Basic Strategy: Randomized high degree nodes}
 Say there are $p$ players in the game and we want $s$ seeds. Our basic strategy is to calculate the degree of each node in the graph, and randomly choose $s$  from the top $s \times p$ nodes with the largest degrees. \\\\
 The rationales are the following: 
 \begin{enumerate}
@@ -64,12 +64,42 @@ The rationales are the following:
 \item We also incorporated randomization to avoid colliding with similar strategies from other teams. 
 \end{enumerate}
 
-\subsection{Massively-Multiplayer (8+) Strategy}
-After participating in 
+\subsection{Massively-Multiplayer (8+) Strategy: Failed attempt to find clusters}
+After participating in several practice rounds, we observed the distinction in results from 2/4-player games and from 8-player games (See Section <Observations> for details). Therefore, we came up with another strategy that does the following things:
+\begin{enumerate}
+\item Randomly choose ($s$/5) nodes from the nodes with high degrees (top $s$ * $p$ ones), denote them by "cluster_heads". 
+\item For each "cluster_head", get 4 of its highest-degree neighbours (that are not among cluster_heads, of course), and put them into seeds list. 
+\end{enumerate}
+This was meant to increase our chance of occupying "incascadable clusters". But it turns out that this doesn't work as well as we expected. There are two main reasons for that:
+\begin{enumerate}
+\item Highest-degree neighbours of high-degree nodes tend to be global high-degree nodes themselves, which caused a lot of collision with other players.
+\item There aren't many "real" clusters, and this simple model can't always find clusters either. 
+\end{enumerate}
+We gave up the attempt of taking advantage of clusters because it is very hard to implement an efficient algorithm without knowledge of the graph structure to find big clusters.  
 
-\subsection{Average distance centrality}
-We also tried to use the node's average distance to all other nodes as a centrality measure locally. The distances between any two nodes in the graph are computed by Floyd Warshall algorithm. If a node is not connected to all other nodes in the graph, we discard it since this node is more likely to be not  important.\\\\
-Since Floyd Warshall algorithm takes $O(n^3)$, we were only planning to use it for graph with fewer nodes. We compared the results locally against the degree measure. The latter won by a large margin. Here are the results on graph with 100 nodes:\\
+\subsection{Another perspective: Distance Centrality}
+During the hunt for effective algorithm, we also tried to use the node's average distance to all other nodes as a centrality measure locally. The distances between any two nodes in the graph are computed by Floyd Warshall algorithm. If a node is not connected to all other nodes in the graph, we discard it since this node is more likely to be unimportant.
+Since Floyd Warshall algorithm takes $O(n^3)$, we were only planning to use it for graph with fewer nodes. We run this algorithm locally against the randomized-high degree algorithm in simulation, on graphs of 100 nodes and 500 nodes. In each run, the latter won by a large margin (taking over more than 80\% of the nodes). We later found out two main reasons for this result:
+\begin{enumerate}
+\item Nodes with low average distances (high distance centrality) is also very likely to be of high degrees. Thus, collisions happen inevitably. 
+\item For those nodes that have low average distances but not with high degrees, they "expand" themselves much slower than those with high degrees. This will be elaborated in the "observations" part. 
+\end{enumerate}
+Also, since the average distance computation is very time-costly compared to degree measure computation, it is pretty risky to use it for 5000/10000 node graphs. Also, it is hard to add in randomization, since if the random result is not ideal, there is likely no time for a second run. 
+
+\subsection{Beating the TAs: A little cheat on randomized-high-degrees}
+One of the tasks in the assignment is to beat the TA strategy. It is observed that the TA strategy is to simply choose the $s$ nodes of highest degrees. Therefore, to beat the TA, we employed the following scheme:
+\begin{enumerate}
+\item Assuming there are $s$ seeds to be chosen. In each run, we randomly choose $s$ seeds among the $(s+2)$ nodes of highest degrees. 
+\item Since we know exactly what the TA-strategy will pick, we also generate a "rival seed set" and run the simulation locally against it. 
+\item If the randomly chosen set wins, submit the set; otherwise go back to step $1$ and rerun the program. 
+\end{enumerate}
+This turns out to be simple and effective. A winning set is usually generated after a few runs. 
+
+\subsection{Tournament Strategy: Eggs in different baskets}
+As we have decided to base our final strategy on degree centrality, we are also aware that many other teams would do the same, causing inevitable collisions, leaving the result to pure luck. Therefore, we decided that we will use a modified version of randomized-high-degree strategy, described below:
+\begin{enumerate}
+\item 
+\end{enumerate}
 
 \section{Observations}
 Multiple observations are made by looking at the graphs and practice rounds results.
