@@ -20,7 +20,7 @@ def rand_degree(centrality, num_seeds, num_players):
     while len(result) < num_seeds:
         c = random.choice(centrality)
         if c[0] not in result:
-            result.append(c[0])
+            result.append(str(c[0]))
     return result
 
 
@@ -41,29 +41,26 @@ if __name__ == "__main__":
 
     c_sorted = sorted(centrality, key=itemgetter(1), reverse=True)
 
-    #dic = {}
-    #for i in range(num_players - 1):
-        #dic["deg" + str(i)] = rand_degree(centrality, num_seeds, num_players)
+    dic = {}
+    for i in range(num_players - 1):
+        dic["deg" + str(i)] = rand_degree(centrality, num_seeds, num_players)
                 
     # Randomly choose a number of seeds from the topList and output to file
     seeds_start = (num_players * num_seeds) / competition_factor + 1
     seeds = []
     while len(seeds) < num_seeds:
         seeds_end = seeds_start + int(stair_width * num_seeds)
-        print([seeds_start,seeds_end])
 
         stair = [str(c_sorted[i][0]) for i in range(seeds_start, seeds_end)]
         random.shuffle(stair)
         seeds += stair[:(num_seeds / safety_coefficient)]
         seeds_start = seeds_end
 
-    #print(seeds)
-
-    #dic["many"] = seeds
+    dic["many"] = seeds
 
     # Print the idea number of nodes this strategy can capture
-    #print sim.run(graph, dic)
-    #print (len(graph))
+    print sim.run(graph, dic)
+    print (len(graph))
 
     f = open(filename[:-4] + 'sol', 'w')
     for s in seeds:
