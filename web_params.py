@@ -1,4 +1,5 @@
 from json import load
+import sys
 import matplotlib.pyplot as plt
 
 def json_analyze(filename):
@@ -118,10 +119,9 @@ def diameter_anal(graph):
         sumd += dis[i][j]
         if dis[i][j] > maxd:
           maxd = dis[i][j]
-      else:
-        return (0, 0)
   avgd = float(sumd) / float(dc)
   return (maxd, avgd)
     
 if __name__ == "__main__":
-  json_analyze("network_stats.txt")
+  filename = sys.argv[1]
+  json_analyze(filename)
